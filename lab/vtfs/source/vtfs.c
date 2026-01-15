@@ -1,6 +1,3 @@
-#define __NO_VERSION__
-#include <linux/fs.h>
-#include <linux/mnt_idmapping.h>
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/printk.h>
