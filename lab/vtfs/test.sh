@@ -15,10 +15,10 @@ echo "[1] Проверка ls -la"
 ls -la $MOUNT_POINT
 
 echo "[2] Создание файла и запись"
-echo "hello kernel vtfs" > $MOUNT_POINT/file1.txt
+echo "hello kernel vtfs" > $MOUNT_POINT/file1
 
 echo "[3] Чтение файла"
-cat $MOUNT_POINT/file1.txt
+cat $MOUNT_POINT/file1
 ls -la $MOUNT_POINT
 
 
@@ -28,25 +28,25 @@ sudo chmod 777 $MOUNT_POINT/dir1
 ls -la $MOUNT_POINT
 
 echo "[5] Файл внутри каталога"
-echo "inside dir" > $MOUNT_POINT/dir1/inner.txt
-cat $MOUNT_POINT/dir1/inner.txt
+echo "inside dir" > $MOUNT_POINT/dir1/inner
+cat $MOUNT_POINT/dir1/inner
 ls -la $MOUNT_POINT/dir1
 
 
 echo "[6] Hard link"
-ln $MOUNT_POINT/file1.txt $MOUNT_POINT/file1_link.txt
+ln $MOUNT_POINT/file1 $MOUNT_POINT/file1_link
 ls -lai $MOUNT_POINT
 
 echo "[7] Проверка общих данных"
-echo " + appended" >> $MOUNT_POINT/file1_link.txt
-cat $MOUNT_POINT/file1.txt
+echo " + appended" >> $MOUNT_POINT/file1_link
+cat $MOUNT_POINT/file1
 
 echo "[8] Unlink файла"
-rm $MOUNT_POINT/file1.txt
+rm $MOUNT_POINT/file1
 ls -l $MOUNT_POINT
 
 echo "[9] Удаление каталога"
-rm $MOUNT_POINT/dir1/inner.txt
+rm $MOUNT_POINT/dir1/inner
 rmdir $MOUNT_POINT/dir1
 ls -la $MOUNT_POINT
 
