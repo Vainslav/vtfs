@@ -344,11 +344,7 @@ void vtfs_kill_sb(struct super_block* sb) {
     struct vtfs_file_info *file_info, *tmp;
     
     list_for_each_entry_safe(file_info, tmp, &vtfs_files, list) {
-        if (file_info->content.data) {
-            kfree(file_info->content.data);
-        }
         list_del(&file_info->list);
-        kfree(file_info);
     }
     
     kill_litter_super(sb);
