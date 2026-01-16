@@ -109,15 +109,6 @@ ssize_t vtfs_read(struct file *filp, char __user *buffer, size_t length, loff_t 
     ret = length;
     
     mutex_unlock(&file_info->lock);
-    int64_t ret_http;
-    char response[512];
-
-    ret_http = vtfs_http_call("my_token", "read", response, sizeof(response), 4,"token", "my_token", "parent_ino", "%d", file_info->parent_ino, "name", file_info->name);
-    if (ret_http < 0) {
-        printk(KERN_ERR "HTTP read failed: %lld\n", ret_http);
-    } else {
-        printk(KERN_INFO "HTTP read response: %s\n", response);
-    }
     return ret;
 }
 
@@ -192,15 +183,6 @@ ssize_t vtfs_write(struct file *filp, const char __user *buffer, size_t length, 
     inode_set_mtime_to_ts(inode, now);
     
     mutex_unlock(&file_info->lock);
-    int64_t ret_http;
-    char response[512];
-
-    ret_http = vtfs_http_call("my_token", "write", response, sizeof(response), 6, "token", "my_token", "parent_ino", "%d", file_info->parent_ino, "name", file_info->name, "data", file_info->content.data);
-    if (ret_http < 0) {
-        printk(KERN_ERR "HTTP write failed: %lld\n", ret_http);
-    } else {
-        printk(KERN_INFO "HTTP write response: %s\n", response);
-    }
 
     return ret;
 }
@@ -382,17 +364,6 @@ int vtfs_create(struct mnt_idmap *idmap, struct inode *parent_inode,
     inode->i_op = &vtfs_inode_ops;
     inode->i_fop = &vtfs_file_ops;
     d_add(child_dentry, inode);
-
-    int64_t ret_http;
-    char response[512];
-
-    ret_http = vtfs_http_call("my_token", "create", response, sizeof(response), 4, "token", "my_token", "parent_ino", "%d", new_file_info->parent_ino, "name", new_file_info->name, "data", "");
-
-    if (ret_http < 0) {
-        printk(KERN_ERR "HTTP create failed: %lld\n", ret_http);
-    } else {
-        printk(KERN_INFO "HTTP create response: %s\n", response);
-    }
     return 0;
 }
 
@@ -410,15 +381,6 @@ int vtfs_unlink(struct inode *parent_inode, struct dentry *child_dentry) {
             kfree(file_info);
             break;
         }
-    }
-    int64_t ret_http;
-    char response[256];
-
-    ret_http = vtfs_http_call("my_token", "unlink", response, sizeof(response), 4, "token", "my_token", "parent_ino", "%d", parent_inode->i_ino, "name", child_dentry->d_name.name);
-    if (ret_http < 0) {
-        printk(KERN_ERR "HTTP unlink failed: %lld\n", ret_http);
-    } else {
-        printk(KERN_INFO "HTTP unlink response: %s\n", response);
     }
 
     return simple_unlink(parent_inode, child_dentry);
@@ -465,15 +427,6 @@ int vtfs_mkdir(struct mnt_idmap *idmap, struct inode *parent_inode,
     d_add(child_dentry, inode);
     
     mutex_unlock(&vtfs_files_lock);
-    int64_t ret_http;
-    char response[256];
-
-    ret_http = vtfs_http_call("my_token", "mkdir", response, sizeof(response), 4, "token", "my_token", "parent_ino", "%d", parent_inode->i_ino, "name", child_dentry->d_name.name);
-    if (ret_http < 0) {
-        printk(KERN_ERR "HTTP mkdir failed: %lld\n", ret_http);
-    } else {
-        printk(KERN_INFO "HTTP mkdir response: %s\n", response);
-    }
 
     return 0;
 }
