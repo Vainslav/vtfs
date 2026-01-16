@@ -1,8 +1,8 @@
 obj-m := vtfs.o
-vtfs-objs := source/vtfs.o source/http.o
+vtfs-objs := source/vtfs.o
 
 PWD := $(CURDIR)
-KDIR = /lib/modules/`uname -r`/build
+KDIR = /lib/modules/6.8.0-90-generic/build
 EXTRA_CFLAGS = -Wall -g
 
 all:
